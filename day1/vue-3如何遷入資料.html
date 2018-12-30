@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, min-scale=1, max-scale=1, shrink-to-fit=no">
+	<title>Title</title>
+	<link rel="stylesheet" type="text/css" href="reset.css">
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<div id="app">
+		<aection>
+			<div class="container">
+				<div class="title">
+					<img v-bind:src="src" class="logo">
+					<img :src="src" class="logo">
+					<h1 v-text="title"></h1>
+					<h1 v-html="title"></h1>
+					<h1>{{title}}</h1>
+				</div>
+			</div>
+		</aection>
+	</div>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.21/vue.js'></script>
+	<script>
+		let data = {
+			src: './images/washDrawing/001.JPG',
+			title:'vue.js'
+		}
+		let vm = new Vue({
+			el: '#app',
+			data: data
+		})
+	</script>
+</body>
+</html>

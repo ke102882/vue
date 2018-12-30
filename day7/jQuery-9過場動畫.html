@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, min-scale=1, max-scale=1, shrink-to-fit=no"
+    />
+    <title>Title</title>
+    <style type="text/css">
+      .description {
+        width: 70%;
+        margin: auto;
+        text-align: center;
+        position: relative;
+      }
+      .arrow {
+        cursor: pointer;
+      }
+      .arrow.left {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-block;
+        border-left: 30px solid transparent;
+        border-right: 30px solid #000;
+        border-top: 30px solid transparent;
+        border-bottom: 30px solid transparent;
+      }
+      .arrow.right {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-block;
+        border-left: 30px solid #000;
+        border-right: 30px solid transparent;
+        border-top: 30px solid transparent;
+        border-bottom: 30px solid transparent;
+      }
+      .menyItem {
+        display: inline-block;
+      }
+      .fade-enter,
+      .fade-leave-to{
+        opacity: 0;
+      }
+      .fade-enter-active,
+      .fade-leave-active{
+        transition: opacity .3s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <div class="title">
+            <img class="logo" :src="src" />
+            <h1>{{ title }}</h1>
+            <div class="description">
+              <a
+                class="arrow left"
+                v-if="index != 0"
+                @click="changeIndex(-1)"
+              ></a>
+              <transition 
+              @before-enter="beforeEnterHandler"
+              @enter="enterHandler"
+              @after-enter="afterEnterHandler"
+              @enter-cancelled="afterEnterHandler"
+              @before-leave="beforeleaveHandler"
+              @leave="leaveHandler"
+              @after-leave="afterleaveHandler"
+              @leave-cancelled="afterleaveHandler"
+              :css="false"
+              mode="out-in" 
+              appear
+              >
+                <div
+                  class="menyItem white"
+                  v-if="index === i"
+                  v-for="(item,i) in menu"
+                  :key="item.type"
+                >
+                  <span class="number">{{ i + 1 }}</span>
+                  <span class="type">{{ item.type }}</span>
+                  <a class="title" :href="item.link" target="vue-iron">{{
+                    item.title
+                  }}</a>
+                </div>
+              </transition>
+
+              <!-- 不加if，則會無限循環 -->
+              <a
+                class="arrow right"
+                v-if="index != (total -1)"
+                @click="changeIndex(1)"
+              ></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.21/vue.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+
+    <script>
+      let data = {
+        title: "vue.js",
+        src: "./images/washDrawing/001.JPG",
+        index: 0,
+        menu: [
+          { type: "主餐", title: "牛排", link: "javascript:;" },
+          { type: "附餐", title: "豬排", link: "javascript:;" },
+          { type: "飲料", title: "可樂", link: "javascript:;" },
+          { type: "沙拉", title: "凱薩", link: "javascript:;" },
+          { type: "水果", title: "西瓜", link: "javascript:;" }
+        ]
+      };
+      let vm = new Vue({
+        el: "#app",
+        data: data,
+        computed: {
+          //被計算過的意思
+          //處理五筆陣列資料成一筆
+          today() {
+            return this.menu[this.index];
+          },
+          total() {
+            return this.menu.length;
+          }
+        },
+        methods: {
+          changeIndex(change) {
+            //this指的是data，所以是data的index
+            //寫法一
+            let length = this.menu.length;
+            let index = this.index;
+            this.index = (index + change + this.total) % this.total;
+            //寫法二
+            // this.index += change;
+            // if(this.index < 0){
+            //   this.index = this.menu.length - 1
+            // }else if(this.index > this.menu.length - 1){
+            //   this.index = 0
+            // }
+          },
+          beforeEnterHandler(e){
+            $(e).css({ opacity: 0 })
+          },
+          enterHandler(e, done){
+            $(e).animate({ opacity: 1 },done)
+          },
+          afterEnterHandler(e){
+            $(e).css({ opacity: '' })
+          },
+          beforeleaveHandler(e){
+            $(e).css({ opacity: 1 })
+          },
+          leaveHandler(e, done){
+            $(e).animate({ opacity: 0 },done)
+          },
+          afterleaveHandler(e){
+            $(e).css({ opacity: '' })
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

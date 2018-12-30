@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, min-scale=1, max-scale=1, shrink-to-fit=no"
+    />
+    <title>Title</title>
+    <style type="text/css">
+    .arrow.left{
+      display: inline-block;
+      border-left:30px solid transparent;
+      border-right:30px solid #000;
+      border-top:30px solid transparent;
+      border-bottom:30px solid transparent;
+    }
+    .arrow.right{
+      display: inline-block;
+      border-left:30px solid #000;
+      border-right:30px solid transparent;
+      border-top:30px solid transparent;
+      border-bottom:30px solid transparent;
+    }
+    .menyItem{
+      display: inline-block;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <div class="title">
+            <div class="input">
+              <select v-model="input.type">
+                <option>全部</option>
+                <option>主餐</option>
+                <option>附餐</option>
+                <option>沙拉</option>
+                <option>飲料</option>
+                <option>點心</option>
+              </select>
+              <input type="text"  v-model.trim="input.title" @keyup.enter="inputHandler()">
+            </div>
+            <div class="menu">
+              <div class="menuItem" v-for="(item,index) in titleMenu">
+                <span class="number">{{index+1}}</span>
+                <span class="type">{{item.type}}</span>
+                <a :href="item.link" target="vue-iron" class="title">
+                  {{item.title}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.21/vue.js"></script>
+    <script src="vue-7.js"></script>
+  </body>
+</html>

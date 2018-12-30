@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, min-scale=1, max-scale=1, shrink-to-fit=no"
+    />
+    <title>Title</title>
+    <style>
+      /* *{
+        outline: 1px solid #f00;
+      } */
+    .edit,
+    .delete{
+      display: inline-block;
+      cursor: pointer;
+      padding: 15px 20px;
+    }
+    .edit:hover,
+    .delete:hover{
+      background-color: #f40;
+      color: #fff;
+    }
+    .menuItem{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content:space-between;
+      align-items:center;
+      text-align: center;
+    }
+    .menuItem *{
+      width: 5%;
+    }
+    .menuItem .title{
+      flex: 1;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section v-if="loading">Loading...</section>
+      <section v-else>
+        <div class="container">
+          <div class="title">
+            <div class="input">
+              <input type="text" placeholder="會員名稱" v-model.trim="input.name"/>
+              <input type="text" placeholder="電子信箱" v-model.trim="input.email"/>
+              <button @click="submitHandler">送出</button> <button @click="cancelHandler">取消</button>
+            </div>
+          </div>
+          <div class="menu">
+            <div class="menuItem" v-for="(item,index) in contacts">
+              <span class="number">{{item.id}}</span> <span class="type">{{item.name}}</span>
+              <a :href="'mailto:'+item.email" target="vue-iron" class="title">{{item.email}}</a>
+              <span class="edit" @click="editHandler(index)">修改</span> <span class="delete" @click="deleteHandler(index)">刪除</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.21/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script>
+      (function(Vue) {
+        new Vue({
+          el: "#app",
+          data: {
+            loading: false,
+            contacts: [], //放資料庫json
+            editIndex: null,
+            input: {
+              name: "",
+              email: ""
+            }
+          },
+          methods: {
+            submitHandler(){
+              let { name, email } = this.input;
+              // console.log(name,email);
+              if( !name || !email) {
+                return;
+              }else if(this.editIndex===null){
+                this.loading = true;
+                axios.post('http://localhost:8888/contact/', this.input)
+                .then((res)=>{
+                  this.contacts.push(res.data);
+                  this.cancelHandler();
+                  this.loading = false;
+                }).catch((err)=>{
+                  console.log(err);
+                })
+              }else{
+                axios.put('http://localhost:8888/contact/'+ this.editIndex ,this.input).then((res)=>{
+                this.contacts[this.editIndex-1] = res.data
+                this.cancelHandler();
+                this.loading = false;
+                }).catch((err)=>{
+                  console.log(err);
+                })
+              }
+            },
+            cancelHandler(){
+              // this.input.name ='';
+              // this.input.email ='';
+              this.editIndex = null;
+              this.input = {
+                name: "",
+                email: ""
+              }
+            },
+            deleteHandler(index){
+              let target = this.contacts[index];
+              if(confirm(`是否刪除${target.name}?`)){
+                this.loading = true;
+                axios.delete('http://localhost:8888/contact/'+ target.id)
+                .then((res)=>{
+                  this.contacts.splice(index,1);
+                  this.loading = false;
+                }).catch((err)=>{
+                  console.log(err);
+                })
+              }
+            },
+            editHandler(index){
+              let { id,name,email } = this.contacts[index];
+              this.editIndex = id;
+              this.input = {
+                name: name,
+                email: email
+              }
+            }
+          },
+          mounted() { //介面掛載完成把資料放入this.contacts
+            this.loading = true;
+            axios.get('http://localhost:8888/contact').then((res)=>{
+              this.contacts = res.data;
+              this.loading = false;
+              console.log(res)
+            }).catch((err)=>{
+              console.log(err)
+            })
+          }
+        });
+      })(Vue);
+    </script>
+  </body>
+</html>

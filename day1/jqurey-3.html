@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, min-scale=1, max-scale=1, shrink-to-fit=no">
+	<title>Title</title>
+	<link rel="stylesheet" type="text/css" href="reset.css">
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+	<div id="app">
+		<aection>
+			<div class="container">
+				<div class="title">
+					<img src="" class="logo">
+					<h1></h1>
+				</div>
+			</div>
+		</aection>
+	</div>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+	<script>
+		let data = {
+			src: './images/washDrawing/001.JPG',
+			title:'vue.js'
+		}
+		$('.title > h1').text(data.title);
+		$('.logo').attr('src',data.src);
+	</script>
+</body>
+</html>

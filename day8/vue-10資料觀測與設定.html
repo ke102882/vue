@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, min-scale=1, max-scale=1, shrink-to-fit=no"
+    />
+    <title>Title</title>
+    <style type="text/css">
+      .description {
+        margin: auto;
+        text-align: center;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .description p{
+        width: 100%;
+      }
+      .description div{
+        width: 45px;
+        height: 45px;
+        background-color: #0ff;
+        border-radius: 50%;
+        cursor: pointer;
+        display:flex;
+        justify-content: center;
+        align-items: center; 
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <div class="container">
+          <div class="title">
+            <div class="description">
+              <p>普通的數字number:</p>
+              <div @click="number++">{{ number }}</div>
+            </div>
+            <div class="description">
+              <p>物件的數字obj:</p>
+              <div  @click="obj.num++">{{ obj.num }}</div>
+            </div>
+            <div class="description">
+              <p>陣列裡物件的數字objList:</p>
+              <div v-for="(item,index) in objList" @click="objListHandler(index)">{{ item.num }}</div>
+            </div>
+            <div class="description">
+              <p>陣列的數字numberList:</p>
+              <div v-for="(number,index) in numberList" @click="numberListHandler(index)">{{ number }}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.21/vue.js"></script>
+
+    <script>
+      let data = {
+        obj: {//物件的數字
+          num: 0 
+        },
+        objList: [{num: 0},{num: 0},{num: 0}], //陣列裡物件的數字
+        number: 0, //普通的數字
+        numberList: [0,0,0]//陣列的數字
+      };
+      let vm = new Vue({
+        el: "#app",
+        data: data,
+        methods:{
+          objListHandler(index){
+            this.objList[index].num++
+          },
+          numberListHandler(index){
+            //numberList本身有主動回報機制，但numberList[index]沒有，所以不應使用此方法
+            // this.numberList[index]++
+
+            //請使用$set(陣列是誰, 這個陣列的誰 , 要做甚麼?)方法，讓陣列值變更完後主動回報。
+            this.$set(this.numberList, index, this.numberList[index] + 1)
+          }
+        },
+        watch:{ //內建
+          number(val, oldVal){
+            console.log('number:',oldVal,'->', val)
+          },
+          //物件數字觀察一 物件單一參數
+          // ['obj.num'](val, oldVal){
+          //   console.log('obj:',oldVal,'->', val)
+          // }
+          //物件數字觀察二 物件本身 ps.觀察物件本身，val,oldVal將無效。
+          obj: {
+            handler(val, oldVal){
+              console.log('obj:',oldVal,'->', val)
+            },
+            deep: true //觀察每個參數
+          },
+          numberList(val, oldVal){
+            console.log('numberList:',oldVal,'->', val)
+          },
+          objList: {
+            handler(val, oldVal){
+              console.log('objList:',oldVal,'->', val)
+            },
+            deep: true //觀察每個參數
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

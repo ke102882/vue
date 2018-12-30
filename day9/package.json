@@ -1,0 +1,14 @@
+{
+  "name": "day9",
+  "version": "1.0.0",
+  "description": "",
+  "main": "vue-9.js",
+  "scripts": {
+    "json":"json-server --watch db.json --port 8888"
+  },
+  "author": "ke",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^0.14.2"
+  }
+}
