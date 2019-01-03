@@ -1,0 +1,15 @@
+<section>
+  <div class="container">
+    <div class="title">
+      <img class="logo" :src="header.src" />
+      <h1>{{ header.title }}</h1>
+      <div class="description" v-if="list.length">
+          <div class="menyItem white" >
+            <span class="number">{{ day + 1 }}</span>
+            <span class="type">{{ list[day].type }}</span>
+            <span class="title">{{ list[day].title }}</span>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
