@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   strict: true,
-  state: {
+  state: { //資料儲存的地方
     day: 0,
     header: {
       src: './001.JPG',
