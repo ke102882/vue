@@ -20,6 +20,14 @@ export default {
   components: { 
     Iron,
     TodoList
+  },
+  computed: {
+    todoIndex(){
+      return this.$store.getters['todoIndex']
+    }
+  },
+  mounted(){
+    this.$store.dispatch('INIT_TODOS');
   }
 }
 </script>
@@ -36,7 +44,5 @@ export default {
 .router-link-exact-active{
   color: #f00;
 } 
-.router-link-active{
 
-}
 </style>

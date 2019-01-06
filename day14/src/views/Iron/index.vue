@@ -49,7 +49,7 @@ export default {
 		this.$store.dispatch('list/getList',day);
 		document.addEventListener('keyup', this.changeHandler ) 
 	},
-	beforeDestoy(){
+	beforeDestroy(){
 		this.$store.unregisterModule('list')
 		document.removeEventListener('keyup', this.changeHandler ) //離開前記得將原本註冊事件刪除，避免影響下次進入時造成可能的資料錯誤
 	},
