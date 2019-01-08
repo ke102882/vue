@@ -14,7 +14,7 @@
         />
       </div>
       <div class="todo-List">
-        <TODOListItem v-for="index in todoIndex":key="index" :index="index"/>
+        <TODOListItem v-for="index in todoIndex" :key="index" :index="index"/>
       </div>
     </div>
   </section>
@@ -29,8 +29,10 @@ export default {
       todo: ""
     };
   },
-  props: {
-    todoIndex: String
+  computed: {
+    todoIndex(){
+      return this.$store.getters['todoIndex'];
+    }
   },
   components:{
     TODOListItem

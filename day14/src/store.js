@@ -41,7 +41,7 @@ export default new Vuex.Store({
     todoIndex(state) {
       return filter[state.route.name](state.todos).map(todo =>
         state.todos.indexOf(todo)
-      );
+      )
     }
   },
   mutations: {
