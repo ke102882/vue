@@ -1,15 +1,15 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
 const LS = {
   load() {
-    return JSON.parse(localStorage.getItem("vue-todos") || "[]");
+    return JSON.parse(localStorage.getItem('vue-todos') || '[]');
   },
   save(data) {
-    localStorage.setItem("vue-todos", JSON.stringify(data));
-  }
+    localStorage.setItem('vue-todos', JSON.stringify(data));
+  },
 };
 const filter = {
   all(todos) {
@@ -24,25 +24,24 @@ const filter = {
     return todos.filter(todo => {
       return todo.complete;
     });
-  }
+  },
 };
 
 export default new Vuex.Store({
   strict: true,
   state: {
     todos: [
-      { content: "todo-content", complete: false },
-      { content: "todo-content", complete: false },
-      { content: "todo-content", complete: false },
-      { content: "todo-content", complete: true }
-    ]
+      { content: 'todo-content', complete: false },
+      { content: 'todo-content', complete: false },
+      { content: 'todo-content', complete: true },
+    ],
   },
   getters: {
     todoIndex(state) {
       return filter[state.route.name](state.todos).map(todo =>
-        state.todos.indexOf(todo)
-      )
-    }
+        state.todos.indexOf(todo),
+      );
+    },
   },
   mutations: {
     Set_Todos(state, data) {
@@ -61,12 +60,12 @@ export default new Vuex.Store({
     Remove_Todos(state, index) {
       state.todos.splice(index, 1);
       LS.save(state.todos);
-    }
+    },
   },
   actions: {
     INIT_TODOS({ commit }) {
       //(讀取)load local暫存
-      commit("Set_Todos", LS.load());
-    }
-  }
+      commit('Set_Todos', LS.load());
+    },
+  },
 });

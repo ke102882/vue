@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
-import ke from './views/ke.vue'
-import Info from './views/Info.vue'
-import Youtube from './views/Youtube.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Home from './views/Home.vue';
+import ke from './views/ke.vue';
+import Info from './views/Info.vue';
+import Youtube from './views/Youtube.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
     },
     {
       path: '/about',
@@ -20,7 +20,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: () =>
+        import(/* webpackChunkName: "about" */ './views/About.vue'),
       //代表一開始預載入(代碼304)，當真正進入該頁面，才會真正載入程式(代碼200)loading。
       //使用這招上面inport就不用引入了喔!!
     },
@@ -28,48 +29,52 @@ export default new Router({
       path: '/Ke',
       name: 'Ke',
       component: ke,
-      children: [ 
+      children: [
         {
           path: 'info', //注意! 子路由不用再寫/了
           name: 'Ke-info',
-          component: Info
+          component: Info,
         },
         {
           path: 'youtuber', //注意! 子路由不用再寫/了
           name: 'Ke-youtuber',
-          component: Youtube
-        }
-      ]
+          component: Youtube,
+        },
+      ],
     },
     {
       path: '/iron',
-      redirect: '/iron/1'
+      redirect: '/iron/1',
     },
     {
       path: '/iron/:day',
-      component: () => import(/* webpackChunkName: "iron" */'./views/Iron/index.vue')
+      name: 'iron',
+      component: () =>
+        import(/* webpackChunkName: "iron" */ './views/Iron/index.vue'),
     },
     {
       path: '/todoList',
-      component: () => import(/* webpackChunkName: "todoList" */'./views/todoList/index.vue'),
-      children: [ 
+      name: '*',
+      component: () =>
+        import(/* webpackChunkName: "todoList" */ './views/todo.vue'),
+      children: [
         {
           path: 'all', //注意! 子路由不用再寫/了
-          name: 'all'
+          name: 'all',
         },
         {
           path: 'active', //注意! 子路由不用再寫/了
-          name: 'active'
+          name: 'active',
         },
         {
           path: 'complete',
-          name: 'complete'
+          name: 'complete',
         },
         {
           path: '*', //注意! 子路由不用再寫/了
-          redirect: 'all'
-        }
-      ]
-    }
-  ]
-})
+          redirect: 'all',
+        },
+      ],
+    },
+  ],
+});
