@@ -1,16 +1,31 @@
 <template>
   <div>
     <div class='todo-list-item'>
-      <input :id='index' type='checkbox' v-model='complete'>
-      <label :for='index' class='ck'>{{ todo.content }}</label>
-      <!-- <button class="destroy">{{ index }}</button> -->
-      <button class='destroy' @click='destroyHandler'>{{ index }}</button>
+      <input
+        type='text'
+        v-model.trim='edit'
+        v-if='edit != null'
+        class='inpu'
+        v-focus
+        @keyup.enter='submitHandler'
+        @keyup.esc='cancelHandler'
+        @blur='cancelHandler'
+      >
+      <template v-else>
+        <input type='checkbox' v-model='complete'>
+        <label class='ck' @dblclick='editHandler'>{{ todo.content }}</label>
+        <!-- <button class="destroy">{{ index }}</button> -->
+        <button class='destroy' @click='destroyHandler'>{{ index }}</button>
+      </template>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: "destroy",
+  data() {
+    return { edit: null };
+  },
   props: {
     index: {
       type: Number,
@@ -41,6 +56,26 @@ export default {
     destroyHandler() {
       if (confirm(`是否確認刪除${this.todo.content}?`))
         this.$store.commit("Remove_Todos", this.index);
+    },
+    editHandler() {
+      this.edit = this.todo.content;
+      // this.cache = this.todo.content;
+    },
+    submitHandler() {
+      // if (!this.edit) this.destroyHandler();
+      if (!this.edit) return;
+      this.$store.commit("Update_Todos", {
+        index: this.index,
+        data: {
+          content: this.edit,
+          complete: this.todo.complete
+        }
+      });
+      // this.edit = null;
+      this.cancelHandler();
+    },
+    cancelHandler() {
+      this.edit = null;
     }
   }
 };
@@ -64,5 +99,7 @@ label {
 }
 * {
   outline: 1px solid #f00;
+}
+.inpu {
 }
 </style>

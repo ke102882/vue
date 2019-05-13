@@ -54,7 +54,8 @@ export default new Router({
     },
     {
       path: '/todoList',
-      name: '*',
+      name: 'todoList',
+      redirect: '/todoList/all',
       component: () =>
         import(/* webpackChunkName: "todoList" */ './views/todo.vue'),
       children: [
@@ -69,10 +70,6 @@ export default new Router({
         {
           path: 'complete',
           name: 'complete',
-        },
-        {
-          path: '*', //注意! 子路由不用再寫/了
-          redirect: 'all',
         },
       ],
     },
