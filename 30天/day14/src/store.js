@@ -38,6 +38,12 @@ export default new Vuex.Store({
   },
   getters: {
     todoIndex(state) {
+      if (
+        state.route.path != '/todoList/all' &&
+        state.route.path != '/todoList/active' &&
+        state.route.path != '/todoList/complete'
+      )
+        return;
       return filter[state.route.name](state.todos).map(todo =>
         state.todos.indexOf(todo),
       );
@@ -54,7 +60,9 @@ export default new Vuex.Store({
       LS.save(state.todos);
     },
     Update_Todos(state, { index, data }) {
-      state.todos[index] = data;
+      // state.todos[index] = data;
+      state.todos[index].complete = data.complete;
+      state.todos[index].content = data.content;
       LS.save(state.todos);
     },
     Remove_Todos(state, index) {
