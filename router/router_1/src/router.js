@@ -12,9 +12,13 @@ export default new Router({
       component: About
     },
     // {
-    //   path: '/about/:id/:name',
-    //   name: 'About',
-    //   component: () => import('./views/About.vue')
+    //   path: '/userInfo',
+    //   redirect: '/userInfo/1/all',
+    // },
+    // {
+    //   path: '/userInfo/:id/:name',
+    //   name: 'userInfo',
+    //   component: () => import('./views/UserInfo.vue')
     // }
   ]
 })

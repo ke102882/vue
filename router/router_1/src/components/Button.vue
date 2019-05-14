@@ -5,8 +5,8 @@
 </template>
 
 <script>
-export default {
-  name: 'button',
+export default{
+  name: 'Button',
   props: {
     msg: String
   }
@@ -20,5 +20,6 @@ export default {
   border: 0;
   background-color: black;
   border-radius: 30px;
+  padding: 5px 15px;
 };
 </style>
